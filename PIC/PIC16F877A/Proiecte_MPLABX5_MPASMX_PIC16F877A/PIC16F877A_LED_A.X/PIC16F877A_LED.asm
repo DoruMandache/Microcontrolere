@@ -1,21 +1,15 @@
 ;*******************************************************************************
-; Fisier	    : PIC16F877A_LED.asm
-; Descriere	    : Interfatare LED cu PIC 16F877A
-; Autor		    : Mandache Doru
+; Fisier	        : PIC16F877A_LED.asm
+; Descriere	        : Interfatare LED cu PIC 16F877A
+; Autor		        : Mandache Doru
 ; Microcontroler    : Microchip PIC 16F877A
 ; Compilator	    : Microchip Assembler (MPASMX)
-; IDE		    : Microchip MPLAB X IDE v5.05
+; IDE		        : Microchip MPLAB X IDE v5.05
 ; Programator	    : PICKit3
-; Hardware	    : PIC16F628, LED, R1 = 470R, R2 = 12K, C1 = 100 nF ?????
-; Conexiuni	    : RA2       ---> R1 ---> Anod LED
-;		      Catod LED ---> GND
-;		      PIC 14    ---> +5V 
-;		      PIC 14    ---> C1 ---> GND
-;		      PIC 5     ---> GND
-;		      PIC 4     ---> R2
-;		      R2        ---> +5V ?????
+; Hardware	        : 
+; Conexiuni	        : 
 ; Data actualizare  : 15.06.2020
-; Site		    : 
+; Site		        : 
 ;*******************************************************************************
     
     list    p=16f877A       ; list directive to define processor
@@ -33,33 +27,39 @@ pclath_temp EQU 0x7F        ; variable used for context saving
 ;**********************************************************************
  
     ORG 0x000                ; processor reset vector
-    goto    main             ; go to beginning of program
-main
-    bsf     STATUS, RP0      ; select bank 1
-    movlw   b'11111110'      ; load W with binary
-    movwf   TRISB            ; set PORTB,1 as output
-    bcf	    STATUS, RP0      ; select bank 0
+    
+    goto    start            ; salt la inceputul programului
+    
+start
+    bsf     STATUS, RP0      ; selecteaza bank 1
+    movlw   b'11111110'      ; incarca registrul W cu valoarea binara b'11111110'
+    movwf   TRISB            ; seteaza PORTB,1 ca iesire
+    bcf	    STATUS, RP0      ; selecteaza bank 0
     clrf    PORTB            ; initializare PORTB
-    bsf	    PORTB,  0        ; turn on RB0 only!
-    end                      ; directive 'end of program'
+    bsf	    PORTB,  0        ;  RB0 only!
+    
+    end                      ; directiva 'end of program'
 
 
-;list p=16f877A
-;Specifica asamblorului pentru ce procesor trebuie sa faca asamblarea. 
-;Intotdeauna trebuie sa folositi directiva ?list? la inceputul fisierului sursa.
-;Daca exista vreo diferenta intre aceasta directiva si setarile MPLAB atunci MPLAB 
-;va avertiza asupra acestui lucru si dv puteti corecta problema.
+; list p=16f877A
+;-------------------------------------------------------------------------------    
+; Specifica asamblorului pentru ce procesor trebuie sa faca asamblarea. 
+; Intotdeauna trebuie sa folositi directiva "list" la inceputul fisierului sursa.
+; Daca exista vreo diferenta intre aceasta directiva si setarile MPLAB atunci MPLAB 
+; va avertiza asupra acestui lucru si dv puteti corecta problema.
 
-;#include
-;Urmatoarea linie utilizeaza directiva ?# include? care face apel la fisierul 16f877A.inc, 
-;aflat printre fisierele din directorul MPASM Suite, pentru a fi citit de catre asamblor.
+; #include <p16f877A.inc>
+;-------------------------------------------------------------------------------    
+; Urmatoarea linie utilizeaza directiva "#include" care face apel la fisierul p16f877A.inc, 
+; aflat printre fisierele din directorul MPASM Suite, pentru a fi citit de catre asamblor.
     
 
-;__CONFIG _CP_OFF & _WDT_OFF & _BODEN_OFF & _PWRTE_ON & _HS_OSC & _WRT_OFF & _LVP_ON & _CPD_OFF
-;Urmatoarea linie arata modul in care este configurat microcontrolerul:
-;Aceasta linie trebuie sa fie scrisa intr-o singura linie in codul sursa.  
-;Microcontrolerele au cateva ?configuration words? adesea numite si ?fuses?, 
-;care definesc un numar de aspecte de configurare a microcontrolerului. 
+; __CONFIG _CP_OFF & _WDT_OFF & _BODEN_OFF & _PWRTE_ON & _HS_OSC & _WRT_OFF & _LVP_ON & _CPD_OFF
+;-------------------------------------------------------------------------------    
+; Urmatoarea linie arata modul in care este configurat microcontrolerul:
+; Aceasta linie trebuie sa fie scrisa intr-o singura linie in codul sursa.  
+; Microcontrolerele au cateva ?configuration words? adesea numite si ?fuses?, 
+; care definesc un numar de aspecte de configurare a microcontrolerului. 
 
 ;Aici:
 ;Protectia codului se face pentru a ascunde de competitori, informatiile continute intr-un MCU care este vandut . 
